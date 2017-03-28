@@ -1,0 +1,329 @@
+Yesterday I was working on smoothing the model and I took the simple case of trying it with a 20 x 20 square and a 40 x 40 square. I found a funtion:
+
+[rs,cs] = find(bwperim(small==1));
+
+
+
+What this gives is the boundary of the matrix. I had a the two squares centered in a padded 100 x 100 matrix. 0s were the outside while 1's were the boundary and everything inside the 20x20 and 40x40. I then took the max and min values of that. For the small square (20x20), since it is centered the square ranges from 40 to 60 for the x and 40 to 60 in the Y. Then for the large (40 x 40), it ranges from 30 to 70 in both the X and Y. Using the function and max and min, it would then give us a in of 40, max 60 and min 30, max 70 for the small and then large. Taking the averages of these we have a square ranging from 35 to 65 in both the x and y. We now have a 30 x 30 square, which is exactly in the middle of these two, and fake data has been generated.
+
+From here I was then able to create a for loop that repeated this process multiple times between slices. I chose to create 7 fake data entries (this could easily be updated to include or exclude). Attached I will send you the code and then the matlab figure. Similar to the branch model the figure can be rotated. 
+
+Next, I will be attempting to do the same with a circle, this will be a bit more challenging due having to use all of the bounds rather than just the max and min. 
+
+
+
+Thanks,
+
+Michael Scarinci
+
+
+Hi Mike,
+(cc: Nick, Katherine)
+
+Your results are very promising.  You are coding from scratch a function that may exist in MATLAB (which is Katherine is looking for) but coding from scratch gives you complete control.  I think pursuing both approaches are good.
+
+In your case, for more general figures than squares, you may want to do what you do for every row and column of the boundary images.  Interpolate the x and y coordinates of the boundary points of all rows and columns of the large and small image.
+
+Keep up the good work,
+Angel
+
+Hi Katherine,
+(Nick, Mike)
+
+The process which Dr. Evans is describing is a type of interpolation:
+
+https://en.wikipedia.org/wiki/Interpolation
+
+In that process you would create intermediate slices which are "between" the ones we have.  To do this in MATLAB, you could look at this page:
+
+http://www.mathworks.com/help/matlab/ref/interp3.html
+
+Best,
+Angel
+
+P.S. Also, don't be restricted by what I send you.  Feel free to explore by doing Google searches on "Volume Interpolation" or "3D Interpolation" or "Smoothing 3D volumes in MATLAB" and things like that.
+
+P.P.S. I am also copying Nick and Mike because I think that we should all be copied in all of our questions.  Sometimes it may not be me who has the best answer :-)
+
+
+On Tue, Jan 12, 2016 at 3:20 PM, Katherine Encarnacion <kencarnacion.student@manhattan.edu> wrote:
+Hi Dr.Pineda,
+
+So I have currently came to a bump in my research. I think that we would need to create more slices so that it could be smooth. But I was having difficulty figuring out how I would create these new slices. Another thing is that Dr. Evans thinks that each new slice should be half the distance from the slices we already have so it would be inbetween the original slices. Once we keep doing this the new slices will become the old slices and we would keep creating new slices half the distance between the old ones.  He was thinking that each new slice should kind of be a morphing into both slices it is in between. So if two slices are put ontop of eachother we should create points that meet each slice halfway. I'm confused on the part where some slices overlap other slices so how could we exactly create an in between slice. I am also having difficulty understanding how to do this on MATLAB.
+
+Best Regards,
+Katherine 
+
+
+Angel Pineda
+Jan 13 (1 day ago)
+
+to Katherine, me, Michael 
+Hi Katherine,
+(cc: Mike, Nick)
+
+Make sure you read about interpolation as well as go through the example for MATLAB.  I haven't gone through the MATLAB example, so I am not sure if it is the most appropriate.  It was just a place for you to start exploring.
+
+In terms of adding points, if it adds points in the x-y plane then there are no new slices created but if it adds points (or voxels) in the z direction then it is adding more slices :-)
+
+I hope this helps,
+Angel
+
+P.S. Please copy Mike and Nick in your emails to me.  That way we all are part of the discussion.
+
+On Wed, Jan 13, 2016 at 10:15 AM, Katherine Encarnacion <kencarnacion.student@manhattan.edu> wrote:
+Hi Dr. Angel, 
+
+I had looked at that MATLAB page yesterday and went through the example. I don't understand how this would create a new slice because all I saw was that the example made essentially more boxes or pixels or places on the grid I'm not sure what it's called but that's what it looked like it did. So I'm still confused on how this works or the idea behind it because maybe I'm not seeing something. 
+
+Thank you,
+Katherine 
+
+
+Michael Scarinci
+Jan 13 (1 day ago)
+
+to Angel, me, Katherine 
+I have been working through the 3d interpolation this morning. It seems to be a step in the right direction. I am working on a simple solution: Two squares, one is large at 40x40 and the other is 20x20. The idea is the interpolate the data between the two to get a 30x30 in between the middle two.
+
+I also found this online and will be seeing how it works.
+http://www.mathworks.com/matlabcentral/fileexchange/22940-vol3d-v2
+
+P.S. I resent because I forgot to include Nick and Katherine.
+
+
+
+On Wed, Jan 13, 2016 at 10:45 AM, Michael Scarinci <mscarinci.student@manhattan.edu> wrote:
+I have been working through the 3d interpolation this morning. It seems to be a step in the right direction. I am working on a simple solution: Two squares, one is large at 40x40 and the other is 20x20. The idea is the interpolate the data between the two to get a 30x30 in between the middle two.
+
+
+Angel Pineda
+Jan 13 (1 day ago)
+
+to Michael, me, Katherine 
+Hi Mike,
+(cc: Nick, Katherine)
+
+It is a good idea to start with a simpler problem like you are doing!  You will see that interpolation will have some error but since we are going to smooth it, it might not make a huge difference.
+
+Best,
+Angel
+
+P.S. Please copy Nick and Katherine in all your emails to me regarding the consulting project.
+
+
+Angel Pineda
+Jan 13 (1 day ago)
+
+to Michael, me, Katherine 
+Cool!  At this point, it is good to explore different options of visualizing the data.  We should not be restricted by the MATLAB examples :-)
+
+Best,
+Angel
+
+
+Michael Scarinci
+Jan 13 (1 day ago)
+
+to Angel, Katherine, me 
+Here is the current script I have on the simple process of creating a square between the two original squares. I now want to find a way to make this a for loop. With only three data points the smoothing will not be great. By creating a for loop data points will be created with ease.
+
+
+
+%First setting up the two squares, the first is a 40x40 and small is a
+
+%20x20 matrix. Both are filled with ones and padded with zeros.
+
+big = zeros(100,100);
+
+big(30:70,30:70) = 1;
+
+ 
+
+small = zeros(100,100);
+
+small(40:60,40:60) = 1;
+
+ 
+
+%%
+
+%The find function gives me the boundaries of when the 100x100 matrix gets
+
+%to one. I want to find the max and min values of these to create the new
+
+%square.
+
+[rs,cs] = find(bwperim(small==1));
+
+ 
+
+srmax = max(rs);
+
+srmin = min(rs);
+
+scmax = max(cs);
+
+scmin = min(cs);
+
+ 
+
+[rb,cb] = find(bwperim(big==1));
+
+ 
+
+brmax = max(rb);
+
+brmin = min(rb);
+
+bcmax = max(cb);
+
+bcmin = min(cb);
+
+ 
+
+%%
+
+%Then taking the average of the small and big max and mins of rows and
+
+%columns will tell me how to index the new matrix which is done below.
+
+rowMin = (srmin+brmin)/2;
+
+rowMax = (srmax + brmax)/2;
+
+colMin = (scmin + bcmin)/2;
+
+colMax = (scmax + bcmax)/2;
+
+ 
+
+mid = zeros(100,100);
+
+mid(rowMin:rowMax,colMin:colMax) = 1;
+
+imagesc(mid)
+
+%%
+
+%This then displays the three together.
+
+Vi = zeros(100,100,3);
+
+Vi(:,:,1) = big;
+
+Vi(:,:,2) = mid;
+
+Vi(:,:,3) = small;
+
+ 
+
+figure
+
+contourslice(Vi,[],[],[1 2 3],3)
+
+ 
+
+ 
+
+ 
+
+
+
+
+
+Katherine Encarnacion
+Attachments11:54 AM (6 hours ago)
+
+to Michael, Angel, me 
+Hi Dr.Angel,
+
+Attached are some of the things I have tried. I used a different volume approach and I attached the figure for that. I am still confused on how it works. I tried other things just to get some new ideas and I also attached the figures. I was trying to figure out a way to create a loop that will allow me to go through every element in all the rows and columns of a matrix for an image. I need a little help trying to figure that out.
+
+Best Regards,
+Katherine
+
+Attachments area
+Preview attachment Research-Katherine.zip
+
+Compressed Archive
+Research-Katherine.zip
+
+Angel Pineda
+2:21 PM (3 hours ago)
+
+to Katherine, Michael, me 
+Hi Katherine,
+
+Some of the images look promising but the code is not very documented so it is hard for me to figure out what it is doing.  I would recommend that if you don't understand what something is doing you first begin with a simpler object (like the squares the mike was working on).  That will help you understand what the code is doing more than complicated data like the MRI or plant images.
+
+In terms of a loop over rows and columns of a matrix,  it would probably be two loops, one over the rows and another over the columns.  Something like
+
+for i=1:nrows
+   for j=1:mcols
+      M(i,j) = 
+   end
+end
+
+I hope this is helpful,
+Angel
+
+Dr. Pineda,
+
+I have gone through some simple examples with working the circle. I started working on a 10x10 grid with two circle one of radius 2 and one of radius 4. I was able to create a circle with radius 3 using the boundaries method from scratch. I was then able to create a loop for large scale and with the files attached I have a 1000x1000 grid and two circles with radius of 300 and 400 . Using the script I was able to find the circle of radius 350(in between the two). The image is not perfect but it does give us an outline of a circle. This can be seen in the figure I will be attaching. The middle image is the image created using the script. Simply put, the script took the average of the two boundaries and at that average placed a 1 in the matrix. 
+
+I am struggling to find a way to make an isosurface. My idea is to see the difference in the surface of the two original images versus when the third "created" data is thrown in. I also gave a shot at running the masks through the program, but it just creates a bunch of dots, no true form is created. I will continue to work in this direction.
+
+Thank you,
+Michael Scarinci
+2 Attachments 
+ 
+Preview attachment circle_complete.m
+
+Binary File
+circle_complete.m
+Preview attachment circleVisual.fig
+
+
+circleVisual.fig
+
+Angel Pineda
+Attachments2:35 PM (3 hours ago)
+
+to Michael, me, Katherine 
+Hi Mike,
+
+Your approach has potential but I think your code probably still has some bugs.  When I tried to run it, I got an error:
+
+>> circle_complete
+Attempted to access Brs(2261); index out of bounds because
+numel(Brs)=2260.
+
+Error in circle_complete (line 38)
+    x = round((Ars(i)+Brs((2*i)-1))/2);
+ 
+Also in the attached figure, there seem to be other contours apart from the interpolated circle.
+
+In terms of creating an "isosurface" it is not clear to me that it is necessary if you have the perimeter.  You could just use the perimeter to visualize the edge of the surface.
+
+I hope this is helpful,
+Angel
+
+Okay sounds great. I was hoping if you understood how packages work on MATLAB. I am wondering in particular to this link http://www.mathworks.com/help/vision/ref/vision.alphablender.step.html which uses the vision package.
+
+
+Angel Pineda
+3:57 PM (2 hours ago)
+
+to Katherine, Michael, me 
+Hi Katherine,
+
+I have never used packages in MATLAB.  This is a great opportunity for you to learn something new and teach us :-)
+
+
+Katherine Encarnacion
+4:18 PM (2 hours ago)
+
+to Angel, Michael, me 
+I don't think the package is available. I think it is something you buy separately. I kept googling things and how to look up packages and nothing really showed up.
+
