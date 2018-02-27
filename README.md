@@ -1,2 +1,4 @@
 # Data-Visualization-of-Sagebrush-Research-and-2016-SIAM-Poster-Presentation-
-3-D Data Visualization of Sagebrush created by Michael Scarinci, Katherine Encarnacion, Dr. Angel Pineda and I for researchers at Manhattan College. This repository archives our sample code, image processing data and project deliverables. 
+Developed data visualization for biological researchers at Manhattan College. Prior attempts to create an illustration depicting the unique growth of Artemisia tridentata (Big Sagebrush) were unsuccessful. Presented the visualization at the SIAM Annual 2016 National Mathematics Conference.
+
+
