@@ -1,5 +1,5 @@
 # Sagebrush-Data-Visualization/2016-SIAM-Poster-Presentation
-Developed data visualization for research in *Computation for Imaging in Biology*. We created an illustration depicting the remarkable growth of Big Sagebrush, presenting the visualization at the SIAM Annual 2016 National Conference.🌵
+Developed Data Visualization and image processing solution in MATLAB— of Sagebrush created by Michael Scarinci, Katherine Encarnacion, Dr. Angel Pineda and I for researchers at Manhattan College. Collaboration with professor of biology, Dr. Lance Evans, and student researchers at Manhattan College.
 
 
 
